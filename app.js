@@ -71,7 +71,34 @@ servidor.post('/dobros', (req, resp) => {
     resp.send('Os doboros dos números são ' + nums2);
 })
 
+servidor.post('/loja/pedido', (req, resp) => {
+    let total = req.body.total;
+    let parcelas = req.body.parcelas;
+    let cupom = req.query.cupom;
 
+    if (parcelas == 2) {
+        let juros = total * 0.05;
+        total += juros;
+    }
+    if (parcelas == 3) {
+        let juros = total * 0.1;
+        total += juros;
+    }
+    if (parcelas == 4) {
+        let juros = total * 0.2;
+        total += juros;
+    }
+    if (parcelas > 5 ) {
+        let juros = total * 0.4;
+        total += juros;
+    }
+
+    if (cupom == 'QUERO100') {
+        total -= 100;
+    }
+
+    resp.send('O total do pedido ficou em R$ ' + total);
+})
 
 servidor.listen(
     5001,  () =>  console.log(' API subida com sucesso!'));
