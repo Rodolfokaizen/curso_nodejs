@@ -76,20 +76,8 @@ servidor.post('/loja/pedido', (req, resp) => {
     let parcelas = req.body.parcelas;
     let cupom = req.query.cupom;
 
-    if (parcelas == 2) {
+    if (parcelas > 1) {
         let juros = total * 0.05;
-        total += juros;
-    }
-    if (parcelas == 3) {
-        let juros = total * 0.1;
-        total += juros;
-    }
-    if (parcelas == 4) {
-        let juros = total * 0.2;
-        total += juros;
-    }
-    if (parcelas > 5 ) {
-        let juros = total * 0.4;
         total += juros;
     }
 
@@ -99,6 +87,31 @@ servidor.post('/loja/pedido', (req, resp) => {
 
     resp.send('O total do pedido ficou em R$ ' + total);
 })
+
+
+servidor.post('/loja/pedido/completo', (req, resp) => {
+    let parcelas = req.body.parcelas;
+    let itens = req.body.itens;
+    let cupom = req.query.cupom;
+
+    let total = 0;
+    for (let produto of itens) {
+        total+= produto.preco;
+    }
+
+    if (parcelas > 1) {
+        let juros = total * 0.05;
+        total += juros;
+    }
+
+    if (cupom == 'QUERO100') {
+        total -= 100;
+    }
+    resp.send('O total a pagar é R$' + total );
+})
+ 
+
+
 
 servidor.listen(
     5001,  () =>  console.log(' API subida com sucesso!'));
