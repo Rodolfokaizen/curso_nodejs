@@ -6,24 +6,34 @@ servidor.use(express.json() );
 
 servidor.get('/helloword' , (req, resp) => {
     //codigo do endpoint
-    resp.send('Hello word!!! ;)');
+    resp.send({
+        mensagem: 'Hello word!'
+    });
 
 })
 
 servidor.get('/mensagem/boasvindas', (req, resp) => {
-    resp.send('Olá, seja bem-vindos e bem-vindas!');
+    resp.send({
+        mensagem: 'Olá, seja bem-vindos e bem-vindas!'
+    });
 })
 
 servidor.get('/v2/mensagem/boasvindas', (req, resp) => {
-    resp.send('Que bom que você esta aqui! ;)');
+    resp.send({
+        mensagem: 'Que bom que você esta aqui! ;)'
+    });
 })
 
 servidor.get('/mensagem/ocupado', (req, resp) => {
-    resp.send('Estou ocupado no momento.');
+    resp.send({
+        mensagem: 'Estou ocupado no momento.'
+    });
 })
 
 servidor.get('/mensagem/ocupado/recado', (req, resp) => {
-    resp.send('Estou ocupado, deixe uma mensagem no emial rodolfokaizen@gmail.com');
+    resp.send({
+        mensagem: 'Estou ocupado, deixe uma mensagem no emial rodolfokaizen@gmail.com'
+    });
 })
 
 servidor.get('/calculadora/somar/:n1/:n2' , (req, resp) => {
@@ -31,7 +41,13 @@ servidor.get('/calculadora/somar/:n1/:n2' , (req, resp) => {
     let n2 = Number(req.params.n2);
     let soma = n1 + n2;
 
-    resp.send('A soma é ' + soma); 
+    resp.send({
+        entradas:{
+            numeors1: n1,
+            numeros2: n2
+        },
+        soma: soma
+    }); 
 })
 
 servidor.get('/calculadora/somar2' , (req, resp) => {
@@ -39,13 +55,17 @@ servidor.get('/calculadora/somar2' , (req, resp) => {
     let n2 = Number(req.query.n2);
     let soma = n1 + n2;
 
-    resp.send('A soma é ' + soma); 
+    resp.send({
+        soma: soma
+    }); 
 })
 
 servidor.get('/mensagem/ola' , (req, resp) => {
     let pessoa = req.query.nome ?? 'você';
 
-    resp.send('Olá ' + pessoa);
+    resp.send({
+        mensagem: 'Olá ' + pessoa
+    });
 })
 
 
@@ -56,7 +76,9 @@ servidor.post('/media' , (req, resp) => {
 
     let media = (n1 + n2 + n3) / 3;
 
-    resp.send('A média é ' + media );
+    resp.send({
+        media: media 
+     });
 
 })
 
@@ -68,7 +90,10 @@ servidor.post('/dobros', (req, resp) => {
         nums2[i] = nums[i] * 2;
     }
 
-    resp.send('Os doboros dos números são ' + nums2);
+    resp.send({
+        numeros: nums,
+        dobros: nums2
+    });
 })
 
 servidor.post('/loja/pedido', (req, resp) => {
@@ -84,8 +109,12 @@ servidor.post('/loja/pedido', (req, resp) => {
     if (cupom == 'QUERO100') {
         total -= 100;
     }
+    let valorParcela = total/parcelas;
 
-    resp.send('O total do pedido ficou em R$ ' + total);
+    resp.send({
+        total: total,
+        valorParcela: valorParcela
+    });
 })
 
 
@@ -107,7 +136,17 @@ servidor.post('/loja/pedido/completo', (req, resp) => {
     if (cupom == 'QUERO100') {
         total -= 100;
     }
-    resp.send('O total a pagar é R$' + total );
+
+    let valorParcela = total / parcelas; 
+
+
+    resp.send({
+
+        total: total,
+        qtdParcelas: parcelas,
+        valorParcela: valorParcela
+
+    });
 })
  
 
