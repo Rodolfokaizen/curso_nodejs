@@ -1,7 +1,9 @@
 import express, { response } from 'express';
-
+import cors from 'cors';
 const servidor = express();
 servidor.use(express.json() );
+servidor.use(cors());
+
 
 
 servidor.get('/helloword' , (req, resp) => {
@@ -106,10 +108,10 @@ servidor.post('/loja/pedido', (req, resp) => {
         total += juros;
     }
 
-    if (cupom == 'QUERO100') {
+    if (cupom == 'QUERO100') { 
         total -= 100;
     }
-    let valorParcela = total/parcelas;
+    let valorParcela = total/parcelas; 
 
     resp.send({
         total: total,
