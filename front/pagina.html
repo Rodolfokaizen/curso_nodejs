@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pagina.css">
+    <title>Consumindo API</title>
+    
+    <script> 
+        async function somar() {
+            let n1 = document.getElementById('txtnum1').value;
+            let n2 = document.getElementById('txtnum2').value;
+
+            // Corrigindo a URL para enviar os números corretamente
+            let url = `http://localhost:5001/calculadora/somar2?n1=${n1}&n2=${n2}`;
+
+            try {
+                let response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar a API");
+                }
+
+                let dados = await response.json();
+                console.log(dados); // Debug para verificar o retorno da API
+
+                // Certifique-se de que "soma" está vindo corretamente no JSON
+                document.getElementById('res').innerText = `Resultado: ${dados.soma}`;
+            } catch (error) {
+                console.error("Erro:", error);
+                document.getElementById('res').innerText = "Erro na requisição!";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Consumindo API</h1>
+    <hr/>
+
+    <h2>Calculadora</h2>
+    <div class="form">
+        <div>
+            <label>Número 01:</label>
+            <input type="text" id="txtnum1">
+        </div>
+        <div>
+            <label>Número 02:</label>
+            <input type="text" id="txtnum2">
+        </div>
+        <div class="btn">
+            <label>&nbsp;</label>
+            <button onclick="somar()">Somar</button>
+        </div>
+        <div>
+            <div id="res">0</div>
+        </div>
+    </div>
+</body>
+</html>
