@@ -66,3 +66,7 @@ button:hover {
     color: #007BFF;
     margin-top: 15px;
 }
+
+hr {
+    padding: 30px 15px;
+}
